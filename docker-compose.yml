@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: spotifly_app
+    restart: always
+    volumes:
+      # Важно: файл spotifly.db должен существовать на хосте до запуска (touch spotifly.db)
+      - ./spotifly.db:/app/spotifly.db
+      # Пробрасываем .env файл
+      - ./.env:/app/.env
+    env_file:
+      - .env
+
+  caddy:
+    image: caddy:latest
+    container_name: spotifly_proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  caddy_data:
+  caddy_config:
