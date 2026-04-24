@@ -42,6 +42,10 @@ async def cmd_nowplaying(message: Message, bot: Bot):
         return
 
     group_id = message.chat.id
+    telegram_id = message.from_user.id
+    
+    # Сразу добавляем пользователя, если он сам вызвал команду
+    await add_user_to_group(group_id, telegram_id)
     
     # Send a typing action
     await bot.send_chat_action(chat_id=group_id, action="upload_photo")

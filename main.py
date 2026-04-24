@@ -2,6 +2,7 @@ import asyncio
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
 from aiogram.types import Update
 
 from config import settings
@@ -104,7 +105,32 @@ async def spotify_callback(code: str = None, state: str = None, error: str = Non
     except Exception as e:
         logger.error(f"Failed to notify user {telegram_id}: {e}")
 
-    return {"status": "Success! You can return to Telegram."}
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Авторизация успешна</title>
+        <style>
+            body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #121212; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+            .container { text-align: center; background: #181818; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+            h1 { color: #1DB954; font-size: 32px; }
+            p { color: #b3b3b3; font-size: 18px; margin-bottom: 24px; }
+            .btn { background: #1DB954; color: white; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-weight: bold; font-size: 16px; margin-top: 10px; display: inline-block; transition: transform 0.2s; }
+            .btn:hover { transform: scale(1.05); }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>✅ Успешно!</h1>
+            <p>Ваш Spotify аккаунт успешно привязан.<br>Вы можете закрыть это окно и вернуться в Telegram.</p>
+            <a href="https://t.me/" class="btn">Вернуться в Telegram</a>
+        </div>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content)
 
 if __name__ == "__main__":
     import uvicorn
