@@ -1,7 +1,9 @@
 import asyncio
 import io
+import os
 import math
 import logging
+import urllib.request
 from typing import List, Dict, Any
 import httpx
 from PIL import Image, ImageDraw, ImageFont
@@ -36,15 +38,24 @@ def _create_collage_sync(users_data: List[Dict[str, Any]]) -> bytes:
 
     collage = Image.new('RGB', (width, height), color='black')
 
-    # Try to load a nice font, fallback to default
-    try:
-        font_large = ImageFont.truetype("arial.ttf", 36)
-        font_medium = ImageFont.truetype("arial.ttf", 26)
-        font_small = ImageFont.truetype("arial.ttf", 20)
-    except IOError:
-        font_large = ImageFont.load_default()
-        font_medium = font_large
-        font_small = font_large
+    # Автоматически скачиваем красивые шрифты, если их нет
+    font_bold_url = "https://github.com/rsms/inter/raw/master/docs/font-files/Inter-Bold.ttf"
+    font_medium_url = "https://github.com/rsms/inter/raw/master/docs/font-files/Inter-Medium.ttf"
+    
+    def load_font(url, filename, size):
+        if not os.path.exists(filename):
+            try:
+                urllib.request.urlretrieve(url, filename)
+            except:
+                pass
+        try:
+            return ImageFont.truetype(filename, size)
+        except IOError:
+            return ImageFont.load_default()
+
+    font_large = load_font(font_bold_url, "Inter-Bold.ttf", 42)
+    font_medium = load_font(font_bold_url, "Inter-Bold.ttf", 28)
+    font_small = load_font(font_medium_url, "Inter-Medium.ttf", 24)
 
     for idx, user_data in enumerate(users_data):
         row = idx // cols
@@ -62,12 +73,14 @@ def _create_collage_sync(users_data: List[Dict[str, Any]]) -> bytes:
         else:
             cover = Image.new('RGB', (cell_size, cell_size), color=(30, 30, 30))
 
-        # Create gradient overlay (transparent at top to dark at bottom)
+        # Делаем высокий темный градиент для читаемости большого шрифта
         gradient = Image.new('RGBA', (cell_size, cell_size), color=(0, 0, 0, 0))
         draw = ImageDraw.Draw(gradient)
-        gradient_height = int(cell_size * 0.5)
+        gradient_height = int(cell_size * 0.75) # Градиент на 75% обложки
         for i in range(gradient_height):
             alpha = int(255 * (1 - (i / gradient_height)))
+            # Немного сгущаем тьму внизу
+            alpha = min(255, int(alpha * 1.2))
             draw.line([(0, cell_size - i), (cell_size, cell_size - i)], fill=(0, 0, 0, alpha))
             
         cover = cover.convert("RGBA")
@@ -75,23 +88,24 @@ def _create_collage_sync(users_data: List[Dict[str, Any]]) -> bytes:
         
         draw = ImageDraw.Draw(cover)
         
-        username = f"@{user_data.get('spotify_username', 'user')}"
+        username = f"{user_data.get('spotify_username', 'user')}"
         track_name = user_data.get('track_name', 'Unknown Track')
         artists = user_data.get('artists', 'Unknown Artist')
 
-        # Drop shadow text helper
+        # Drop shadow text helper (делаем тени мягче и дальше)
         def draw_text_with_shadow(draw_obj, pos, text, font, fill_color=(255, 255, 255)):
             x_pos, y_pos = pos
-            draw_obj.text((x_pos+2, y_pos+2), text, font=font, fill=(0, 0, 0, 180))
+            draw_obj.text((x_pos+2, y_pos+3), text, font=font, fill=(0, 0, 0, 200))
             draw_obj.text((x_pos, y_pos), text, font=font, fill=fill_color)
 
-        margin = 15
-        text_y = cell_size - margin - 30 
+        margin = 25
+        text_y = cell_size - margin - 35 
         
+        # Рисуем снизу вверх
         draw_text_with_shadow(draw, (margin, text_y), artists, font_small, fill_color=(200, 200, 200))
-        text_y -= 40
+        text_y -= 48
         draw_text_with_shadow(draw, (margin, text_y), track_name, font_large, fill_color=(255, 255, 255))
-        text_y -= 35
+        text_y -= 40
         draw_text_with_shadow(draw, (margin, text_y), username, font_medium, fill_color=(29, 185, 84)) 
 
         collage.paste(cover, (x, y))
