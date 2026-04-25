@@ -52,9 +52,12 @@ async def lifespan(app: FastAPI):
         logger.error(f"Failed to shutdown gracefully: {e}")
     await bot.session.close()
 
+from pathlib import Path
+
 app = FastAPI(lifespan=lifespan)
 
-templates = Jinja2Templates(directory="templates")
+BASE_DIR = Path(__file__).resolve().parent
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
