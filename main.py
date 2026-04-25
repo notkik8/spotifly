@@ -62,7 +62,7 @@ LANDING_PAGE_HTML = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotifly — Твоя музыка в Telegram</title>
+    <title>LadsJam</title>
     <meta name="description" content="Транслируй свою музыку из Spotify прямо в группы Telegram. Делись тем, что слушаешь!">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
@@ -223,26 +223,46 @@ LANDING_PAGE_HTML = """
 
     <script>
         const albums = [
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/56/ff/25/56ff259a-f9f9-54c3-3484-a45fa1c0348e/6180.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/a1/47/ba/a147ba91-31cd-ef4d-d785-040036d14598/12CMGIM34362.rgb.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a1/ba/64/a1ba6484-f462-1b88-ddff-d4c014d5f265/196874018361.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cc/8e/fb/cc8efb15-ad5e-69fc-ae92-dd921630c41d/199806333808.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/32/4f/fd/324ffda2-9e51-8f6a-0c2d-c6fd2b41ac55/074643811224.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6b/2a/c8/6b2ac856-ac42-8278-b0cb-4ded012efd57/26BMR0007667.rgb.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/f0/c7/c8/f0c7c8f4-4319-d357-ddaf-566ef8e2194e/081227979379.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4c/b6/e5/4cb6e5b1-2db0-88c0-f025-b79cad3b8fab/196873832111.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/9d/1b/c0/9d1bc061-4161-87bc-3cec-49e5951df334/197190214994.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/67/c6/c9/67c6c9b0-e879-7e4d-fcda-dc52f758ec43/888880457066.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7a/b9/73/7ab9736c-3399-125f-5dcd-ae73c0408931/823000220731.png/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/38/8b/ce/388bcea4-f133-d51a-9023-e628744e52fd/437711.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ef/f1/65/eff16551-2b83-202a-f923-a655a57c61b8/196872452563.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/54/f2/ef/54f2ef79-c668-8d6f-28cd-ae48c45009b7/196874193211.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ed/46/bf/ed46bf4e-7cb9-965a-54f3-03059977fe6c/075679589293.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/54/e8/32/54e8324f-9ae0-f39c-687c-2ea6d2c77f44/199806246184.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d5/5f/28/d55f28f4-610c-ee81-dc16-a01cda46bbc4/886443546264.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7e/33/73/7e337333-0802-d7b5-8848-d20fdbdf993c/075679584731.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/d2/48/f4/d248f4ae-a7e4-a48e-1588-6617de3e8d76/mzi.izeorbmm.jpg/600x600bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/76/28/e7/7628e7b8-0268-f529-6ca8-d5bffb1f2d9e/4099964214482.jpg/600x600bb.png"
+    // Kendrick Lamar - DAMN.
+    "https://coverartarchive.org/release-group/17a9ea15-ea83-4aeb-8f45-7d8b5eb522d4/front",
+    // Nas - Illmatic
+    "https://coverartarchive.org/release-group/28298e2c-4d70-3eed-a0f5-a3280c662b3d/front",
+    // Wu-Tang Clan - Enter the Wu-Tang (36 Chambers)
+    "https://coverartarchive.org/release-group/610fb60f-900a-3c42-ac7d-f6b6aa8035f9/front",
+    // Dr. Dre - The Chronic
+    "https://coverartarchive.org/release-group/ad444843-7160-33d7-b0c9-fc99f2c14a99/front",
+    // 2Pac - All Eyez on Me
+    "https://coverartarchive.org/release/ed3e7564-e4a5-4885-9cb9-abaa4c44258c/front",
+    // The Notorious B.I.G. - Ready to Die
+    "https://coverartarchive.org/release/dbcc52f3-9a94-4ca4-b92b-b05f6d5cb0c8/front",
+    // Kanye West - Graduation
+    "https://coverartarchive.org/release/61eee7a2-43cc-41b5-b7bc-cef045fa074a/front",
+    // Jay-Z - The Blueprint
+    "https://coverartarchive.org/release-group/11ae8c9c-27c1-3308-9761-edb87c8f54ea/front",
+    // 50 Cent - Get Rich or Die Tryin'
+    "https://coverartarchive.org/release/ab455983-1a71-4797-bf53-61306ebde2ca/front",
+    // Outkast - Stankonia
+    "https://coverartarchive.org/release/4e9cd9d7-4c26-4d0b-b404-3a7543122225/front",
+    // Eminem - The Marshall Mathers LP 2
+    "https://coverartarchive.org/release/c034efca-b753-442e-9182-9577731527af/front",
+    // J. Cole - 2014 Forest Hills Drive
+    "https://coverartarchive.org/release-group/5995738d-4b6f-4db6-847b-310a9dc67085/front",
+    // Tyler, The Creator - IGOR
+    "https://coverartarchive.org/release-group/0f1b9e07-b38b-4bba-9794-55e0924d7177/front",
+    // Tyler, The Creator - Call Me If You Get Lost
+    "https://coverartarchive.org/release-group/c65de046-7a48-4269-b4e5-4db0ed328f47/front",
+    // Travis Scott - Astroworld
+    "https://coverartarchive.org/release/cd653261-861d-49ab-90b8-cef707eb5f89/front",
+    // Kendrick Lamar - good kid, m.A.A.d city
+    "https://coverartarchive.org/release-group/499c19c8-0dab-4824-884b-6191d145e95b/front",
+    // Kanye West - My Beautiful Dark Twisted Fantasy
+    "https://coverartarchive.org/release-group/5d6e21e1-deb5-428e-bb42-c2a567f3619b/front",
+    // Kendrick Lamar - To Pimp A Butterfly
+    "https://coverartarchive.org/release/2d45efbe-a339-4002-a9a6-6ece0f33b4bf/front",
+    // Snoop Dogg / Doggy Style Allstars - Welcome to tha House
+    "https://coverartarchive.org/release-group/d36a5a6c-e275-37cd-b518-2d2da71c358b/front",
+    // Eminem - The Marshall Mathers LP
+    "https://coverartarchive.org/release/cb7b2647-8b66-4f24-a349-4a5b389a6f60/front"
         ];
 
         const collage = document.getElementById('collage');
