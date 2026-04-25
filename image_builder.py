@@ -39,8 +39,8 @@ def _create_collage_sync(users_data: List[Dict[str, Any]]) -> bytes:
     collage = Image.new('RGB', (width, height), color='black')
 
     # Автоматически скачиваем красивые шрифты, если их нет
-    font_bold_url = "https://github.com/rsms/inter/raw/master/docs/font-files/Inter-Bold.ttf"
-    font_medium_url = "https://github.com/rsms/inter/raw/master/docs/font-files/Inter-Medium.ttf"
+    font_bold_url = "https://github.com/cygnus-rom/external_inter-fonts/blob/caf-ten/Inter-Bold.ttf"
+    font_medium_url = "https://github.com/cygnus-rom/external_inter-fonts/blob/caf-ten/Inter-Medium.ttf"
     
     def load_font(url, filename, size):
         if not os.path.exists(filename):
