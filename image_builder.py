@@ -55,26 +55,25 @@ def _create_collage_sync(users_data: List[Dict[str, Any]]) -> bytes:
     collage = Image.new('RGB', (width, height), color='black')
 
     # Автоматически скачиваем красивые шрифты, если их нет
-    font_bold_url = "https://github.com/cygnus-rom/external_inter-fonts/blob/caf-ten/Inter-Bold.ttf"
-    font_medium_url = "https://github.com/cygnus-rom/external_inter-fonts/blob/caf-ten/Inter-Medium.ttf"
+    font_bold_url = "https://raw.githubusercontent.com/cygnus-rom/external_inter-fonts/caf-ten/Inter-Bold.ttf"
+    font_medium_url = "https://raw.githubusercontent.com/cygnus-rom/external_inter-fonts/caf-ten/Inter-Medium.ttf"
     
     def load_font(url, filename, size):
-        if not os.path.exists(filename):
+        filepath = os.path.join(BASE_DIR, filename)
+        if not os.path.exists(filepath):
             try:
-                urllib.request.urlretrieve(url, filename)
-            except:
-                pass
+                urllib.request.urlretrieve(url, filepath)
+            except Exception as e:
+                logger.error(f"Failed to download font {filename}: {e}")
         try:
-            return ImageFont.truetype(filename, size)
+            return ImageFont.truetype(filepath, size)
         except IOError:
             return ImageFont.load_default()
 
-    # Для крупных элементов используем жирный шрифт (JumperB.ttf)
-    font_large = ImageFont.truetype(FONT_BOLD_PATH, 42)
-    font_medium = ImageFont.truetype(FONT_BOLD_PATH, 28)
-        
-    # Для артиста используем обычный шрифт (Jumper.ttf)
-    font_small = ImageFont.truetype(FONT_REGULAR_PATH, 24)
+    # Загружаем правильные шрифты Inter с поддержкой всех языков
+    font_large = load_font(font_bold_url, "Inter-Bold.ttf", 42)
+    font_medium = load_font(font_bold_url, "Inter-Bold.ttf", 28)
+    font_small = load_font(font_medium_url, "Inter-Medium.ttf", 24)
 
     for idx, user_data in enumerate(users_data):
         row = idx // cols
