@@ -4,11 +4,27 @@ import os
 import math
 import logging
 import urllib.request
+from dotenv import load_dotenv
 from typing import List, Dict, Any
 import httpx
 from PIL import Image, ImageDraw, ImageFont
 
+
+load_dotenv()
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+font_regular_name = os.getenv("FONT_REGULAR", "Jumper.ttf")
+font_bold_name = os.getenv("FONT_BOLD", "JumperB.ttf")
+FONT_REGULAR_PATH = os.path.join(BASE_DIR, font_regular_name)
+FONT_BOLD_PATH = os.path.join(BASE_DIR, font_bold_name)
+
+
 logger = logging.getLogger(__name__)
+
+
+
+
 
 async def fetch_image(client: httpx.AsyncClient, url: str) -> bytes | None:
     if not url:
@@ -53,9 +69,12 @@ def _create_collage_sync(users_data: List[Dict[str, Any]]) -> bytes:
         except IOError:
             return ImageFont.load_default()
 
-    font_large = load_font(font_bold_url, "Inter-Bold.ttf", 42)
-    font_medium = load_font(font_bold_url, "Inter-Bold.ttf", 28)
-    font_small = load_font(font_medium_url, "Inter-Medium.ttf", 24)
+    # Для крупных элементов используем жирный шрифт (JumperB.ttf)
+    font_large = ImageFont.truetype(FONT_BOLD_PATH, 42)
+    font_medium = ImageFont.truetype(FONT_BOLD_PATH, 28)
+        
+    # Для артиста используем обычный шрифт (Jumper.ttf)
+    font_small = ImageFont.truetype(FONT_REGULAR_PATH, 24)
 
     for idx, user_data in enumerate(users_data):
         row = idx // cols
@@ -76,7 +95,7 @@ def _create_collage_sync(users_data: List[Dict[str, Any]]) -> bytes:
         # Делаем высокий темный градиент для читаемости большого шрифта
         gradient = Image.new('RGBA', (cell_size, cell_size), color=(0, 0, 0, 0))
         draw = ImageDraw.Draw(gradient)
-        gradient_height = int(cell_size * 0.75) # Градиент на 75% обложки
+        gradient_height = int(cell_size * 0.5) # Градиент на 50% обложки
         for i in range(gradient_height):
             alpha = int(255 * (1 - (i / gradient_height)))
             # Немного сгущаем тьму внизу
