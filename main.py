@@ -296,19 +296,109 @@ async def spotify_callback(code: str = None, state: str = None, error: str = Non
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Авторизация успешна</title>
         <style>
-            body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #121212; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-            .container { text-align: center; background: #181818; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-            h1 { color: #1DB954; font-size: 32px; }
-            p { color: #b3b3b3; font-size: 18px; margin-bottom: 24px; }
-            .btn { background: #1DB954; color: white; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-weight: bold; font-size: 16px; margin-top: 10px; display: inline-block; transition: transform 0.2s; }
-            .btn:hover { transform: scale(1.05); }
+            @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+            :root {
+                --primary: #1DB954;
+                --secondary: #8B5CF6;
+                --bg: #09090b;
+            }
+
+            body, html {
+                margin: 0; padding: 0;
+                width: 100%; height: 100%;
+                font-family: 'Plus Jakarta Sans', sans-serif;
+                background-color: var(--bg);
+                color: #fff;
+                overflow: hidden;
+                display: flex; align-items: center; justify-content: center;
+            }
+
+            /* Ambient Glowing Orbs */
+            .orb {
+                position: absolute;
+                border-radius: 50%;
+                filter: blur(100px);
+                opacity: 0.4;
+                animation: floatOrb 20s infinite ease-in-out alternate;
+                z-index: 0;
+            }
+            .orb-1 { width: 50vw; height: 50vw; background: var(--secondary); top: -10%; left: -10%; }
+            .orb-2 { width: 40vw; height: 40vw; background: var(--primary); bottom: -10%; right: -10%; animation-delay: -5s; }
+
+            @keyframes floatOrb {
+                0% { transform: translate(0, 0) scale(1); }
+                100% { transform: translate(50px, 50px) scale(1.1); }
+            }
+
+            /* Glassmorphism Card */
+            .content {
+                position: relative; z-index: 3;
+                text-align: center;
+                max-width: 500px;
+                padding: 50px 40px;
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 32px;
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+                animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                opacity: 0; transform: translateY(30px);
+            }
+
+            @keyframes fadeInUp {
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            h1 {
+                font-size: 2.5rem; font-weight: 800;
+                margin: 0 0 16px 0;
+                background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+                -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                letter-spacing: -1px;
+            }
+
+            p {
+                font-size: 1.15rem; color: #a1a1aa;
+                margin: 0 0 32px 0; line-height: 1.6; font-weight: 400;
+            }
+
+            .icon-success {
+                font-size: 64px;
+                margin-bottom: 20px;
+                filter: drop-shadow(0 0 16px rgba(29, 185, 84, 0.4));
+            }
+
+            .btn {
+                display: inline-flex; align-items: center; justify-content: center;
+                background: linear-gradient(135deg, var(--primary) 0%, #1ed760 100%);
+                color: #000; text-decoration: none;
+                padding: 16px 36px; border-radius: 100px;
+                font-weight: 700; font-size: 1.1rem; letter-spacing: 0.5px;
+                transition: all 0.3s ease;
+                box-shadow: 0 8px 24px rgba(29, 185, 84, 0.3);
+                gap: 10px;
+            }
+
+            .btn:hover {
+                transform: translateY(-3px) scale(1.02);
+                box-shadow: 0 12px 32px rgba(29, 185, 84, 0.5);
+            }
         </style>
     </head>
     <body>
-        <div class="container">
-            <h1>✅ Успешно!</h1>
-            <p>Ваш Spotify аккаунт успешно привязан.<br>Вы можете закрыть это окно и вернуться в Telegram.</p>
-            <a href="https://t.me/" class="btn">Вернуться в Telegram</a>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        
+        <div class="content">
+            <div class="icon-success">🎧</div>
+            <h1>Успешно!</h1>
+            <p>Ваш Spotify аккаунт успешно привязан. Теперь вы можете закрыть это окно и вернуться в Telegram.</p>
+            <a href="https://t.me/ladsjambot" class="btn">
+                Вернуться в Telegram
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
         </div>
     </body>
     </html>
